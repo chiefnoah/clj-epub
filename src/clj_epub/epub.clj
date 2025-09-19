@@ -12,8 +12,9 @@
   (first (find-first #(= item (last %))
                      (indexed coll))))
 
-(defn- ftext [name text]
+(defn- ftext
   "binding name and text"
+  [name text]
   {:name name :text text})
 
 
@@ -77,7 +78,11 @@
             [:meta {:content book-id :name "dtb:uid"}]
             [:meta {:content "0" :name "dtb:totalPageCount"}]
             [:meta {:content "1" :name "dtb:depth"}]
-            [:meta {:content "0" :name "dtb:maxPageNumber"}]]
+            [:meta {:content "0" :name "dtb:maxPageNumber"}]
+            [:style {:type "text/css" :title "override_css"}
+              "@page {padding: 0pt; margin: 0pt;}
+               body { text-align: center; padding: 0pt; margin: 0pt;}
+               img { height: 100%; }"]]
            [:navMap
             (for [sec section_titles]
               [:navPoint {:id (:ncx sec) :playOrder (str (inc (find-at sec section_titles)))}
