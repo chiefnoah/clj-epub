@@ -1,6 +1,7 @@
 (ns clj-epub.core
   "input and output EPUB files"
-  (:use [clj-epub epub zipf markup])
+  (:use [clj-epub epub zipf markup]
+        [hiccup.util :refer [to-str raw-string?]])
   (:import [java.io ByteArrayOutputStream]
            [java.util UUID]))
 
@@ -18,9 +19,9 @@
   (doseq [extra (:extras epub)]
     (storedb zos extra))
   (doseq [key [:meta-inf :content-opf :toc-ncx]]
-    (deflated zos (key epub)))
+    (deflated zos (to-str (key epub))))
   (doseq [t (:html epub)]
-    (deflated zos t))
+    (deflated zos (to-str t)))
   (.flush zos))
 
 

@@ -4,8 +4,7 @@
            [java.io InputStreamReader
             ByteArrayInputStream
             ByteArrayOutputStream
-            FileOutputStream
-            FileInputStream]))
+            FileOutputStream]))
 
 (defn open-zipstream
   "open ZipOutputStream by ByteArrayOutputStream"
@@ -53,16 +52,15 @@
       (.closeEntry))))
 
 (defn- output-stream
-  ""
   [input #^ZipOutputStream output]
   (let [buf (char-array 1024)]
     (loop [count (.read input buf 0 1024)]
-      (if (not= count -1)
+      (when (not= count -1)
         (let [str (String. buf 0 count)
               bytes (.getBytes str "UTF-8")
               len (alength bytes)]
           (.write output bytes 0 len)))
-      (if (not= count -1) ; 前のifとまとめるとloop-recur syntax error
+      (when (not= count -1) ; 前のifとまとめるとloop-recur syntax error
         (recur (.read input buf 0 1024))))))
 
 (defn deflated
