@@ -15,6 +15,8 @@
   "write EPUB on zip file"
   [zos epub]
   (stored zos (:mimetype epub))
+  (doseq [extra (:extras epub)]
+    (stored zos extra))
   (doseq [key [:meta-inf :content-opf :toc-ncx]]
     (deflated zos (key epub)))
   (doseq [t (:html epub)]
@@ -24,7 +26,7 @@
 
 (defn text->epub
   "Generate EPUB data. Args are epub title of metadata, includes text files."
-  [{input-files :inputs title :title author :author markup-type :markup book-id :id lang :language}]
+  [{input-files :inputs title :title author :author markup-type :markup book-id :id lang :language extras :extras}]
   (let [eptexts  (files->epub-texts markup-type input-files)
         metadata {:title    title
                   :author   (or author "Nobody")
@@ -35,7 +37,8 @@
      :meta-inf    (meta-inf)
      :content-opf (content-opf metadata)
      :toc-ncx     (toc-ncx (:id metadata) eptexts)
-     :html        eptexts}))
+     :html        eptexts
+     :extras      extras}))
 
 
 (defn epub->file

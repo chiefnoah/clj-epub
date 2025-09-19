@@ -83,5 +83,5 @@
               [:navPoint {:id (:ncx sec) :playOrder (str (inc (find-at sec section_titles)))}
                [:navLabel
                 [:text (:label sec)]]
-               [:content {:src (:src sec)}]])
-            ]])))
+               [:content {:src (:src sec)}]])]])))
+            
