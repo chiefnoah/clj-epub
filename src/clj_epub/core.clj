@@ -11,6 +11,10 @@
   []
   (str (UUID/randomUUID)))
 
+
+(defn- stringify-text [m]
+  (assoc m :text (as-str (:text m))))
+
 (defn- write-epub
   "write EPUB on zip file"
   [zos epub]
@@ -18,9 +22,9 @@
   (doseq [extra (:extras epub)]
     (storedb zos extra))
   (doseq [key [:meta-inf :content-opf :toc-ncx]]
-    (deflated zos (as-str (key epub))))
+    (deflated zos (stringify-text (key epub))))
   (doseq [t (:html epub)]
-    (deflated zos (as-str t)))
+    (deflated zos (stringify-text t)))
   (.flush zos))
 
 
