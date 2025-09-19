@@ -1,0 +1,7 @@
+{:paths ["src" "resources"],
+ :deps
+ {org.clojure/clojure {:mvn/version "1.2.0"},
+  org.clojure/clojure-contrib {:mvn/version "1.2.0"},
+  hiccup/hiccup {:mvn/version "0.3.0"},
+  org.markdownj/markdownj {:mvn/version "0.3.0-1.0.2b4"}},
+ :mvn/repos {"markdownj" {:url "http://scala-tools.org/repo-releases"}}}
