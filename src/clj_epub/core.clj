@@ -1,7 +1,7 @@
 (ns clj-epub.core
   "input and output EPUB files"
   (:use [clj-epub epub zipf markup]
-        [hiccup.util :refer [to-str raw-string?]])
+        [hiccup.util :refer [as-str raw-string]])
   (:import [java.io ByteArrayOutputStream]
            [java.util UUID]))
 
@@ -11,7 +11,6 @@
   []
   (str (UUID/randomUUID)))
 
-
 (defn- write-epub
   "write EPUB on zip file"
   [zos epub]
@@ -19,15 +18,21 @@
   (doseq [extra (:extras epub)]
     (storedb zos extra))
   (doseq [key [:meta-inf :content-opf :toc-ncx]]
-    (deflated zos (to-str (key epub))))
+    (deflated zos (as-str (key epub))))
   (doseq [t (:html epub)]
-    (deflated zos (to-str t)))
+    (deflated zos (as-str t)))
   (.flush zos))
 
 
 (defn text->epub
   "Generate EPUB data. Args are epub title of metadata, includes text files."
-  [{input-files :inputs title :title author :author markup-type :markup book-id :id lang :language extras :extras}]
+  [{input-files :inputs
+    title :title
+    author :author
+    markup-type :markup
+    book-id :id
+    lang :language
+    extras :extras}]
   (let [eptexts  (files->epub-texts markup-type input-files)
         metadata {:title    title
                   :author   (or author "Nobody")

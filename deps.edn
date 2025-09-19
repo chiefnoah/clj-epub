@@ -4,4 +4,7 @@
   org.clojure/clojure-contrib {:mvn/version "1.2.0"}
   hiccup/hiccup {:mvn/version "2.0.0"}
   org.markdownj/markdownj {:mvn/version "0.3.0-1.0.2b4"}}
- :mvn/repos {"markdownj" {:url "https://scala-tools.org/repo-releases"}}}
+ :mvn/repos {"markdownj" {:url "https://scala-tools.org/repo-releases"}}
+ :aliases
+ {:repl/conjure {:extra-deps {nrepl/nrepl {:mvn/version "1.4.0"}}
+                 :main-opts  ["--main" "nrepl.cmdline" "--interactive"]}}}

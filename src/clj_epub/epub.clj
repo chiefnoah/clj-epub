@@ -1,10 +1,9 @@
 (ns clj-epub.epub
   "making epub content & metadata"
-  (:use [clojure.contrib.seq :only (find-first indexed)]
-        [hiccup2.core :only (html)]
-        [hiccup.page :only (xml-declaration)]
-        [clj-epub.markup]))
-
+  (:require [clojure.contrib.seq :refer [find-first indexed]]
+            [hiccup2.core :refer (html)]
+            [hiccup.page :refer (xml-declaration)]
+            [clj-epub.markup]))
 
 (defn- find-at
   "return item's index in coll"
@@ -17,13 +16,11 @@
   [name text]
   {:name name :text text})
 
-
 (defn mimetype
   "body of mimetype file for EPUB format"
   []
   (ftext "mimetype"
          "application/epub+zip"))
-
 
 (defn meta-inf
   "container.xml for EPUB format"
@@ -34,7 +31,6 @@
           [:container {:version "1.0" :xmlns "urn:oasis:names:tc:opendocument:xmlns:container"}
            [:rootfiles
             [:rootfile {:full-path "OEBPS/content.opf" :media-type "application/oebps-package+xml"}]]])))
-
 
 (defn content-opf
   "content body & metadata(author, id, ...) on EPUB format"
@@ -65,7 +61,6 @@
               (for [s sections]
                 [:itemref {:idref (:ncx s)}])]]))))
 
-
 (defn toc-ncx
   "index infomation on EPUB format"
   [book-id section_titles]
@@ -80,7 +75,7 @@
             [:meta {:content "1" :name "dtb:depth"}]
             [:meta {:content "0" :name "dtb:maxPageNumber"}]
             [:style {:type "text/css" :title "override_css"}
-              "@page {padding: 0pt; margin: 0pt;}
+             "@page {padding: 0pt; margin: 0pt;}
                body { text-align: center; padding: 0pt; margin: 0pt;}
                img { height: 100%; }"]]
            [:navMap
@@ -89,4 +84,4 @@
                [:navLabel
                 [:text (:label sec)]]
                [:content {:src (:src sec)}]])]])))
-            
+
