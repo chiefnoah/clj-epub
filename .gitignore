@@ -4,3 +4,5 @@ pom.xml
 lib
 classes
 *~
+.lsp/
+target/

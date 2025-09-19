@@ -16,7 +16,7 @@
   [zos epub]
   (stored zos (:mimetype epub))
   (doseq [extra (:extras epub)]
-    (stored zos extra))
+    (storedb zos extra))
   (doseq [key [:meta-inf :content-opf :toc-ncx]]
     (deflated zos (key epub)))
   (doseq [t (:html epub)]

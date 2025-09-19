@@ -2,10 +2,10 @@
   "zip file output"
   (:import [java.util.zip ZipEntry ZipOutputStream CRC32]
            [java.io InputStreamReader
-                    ByteArrayInputStream
-                    ByteArrayOutputStream
-                    FileOutputStream
-                    FileInputStream]))
+            ByteArrayInputStream
+            ByteArrayOutputStream
+            FileOutputStream
+            FileInputStream]))
 
 (defn open-zipstream
   "open ZipOutputStream by ByteArrayOutputStream"
@@ -19,6 +19,21 @@
 
 ;;;
 ; str base
+(defn storedb
+  "add no deflated binary to zip file"
+  [#^ZipOutputStream zos {name :name data :data}]
+  (.setMethod zos ZipOutputStream/STORED)
+  (let [crc   (CRC32.)
+        ze    (ZipEntry. name)
+        count (alength data)]
+    (.update crc data)
+    (doto ze
+      (.setSize count)
+      (.setCrc (.getValue crc)))
+    (doto zos
+      (.putNextEntry ze)
+      (.write data 0 count)
+      (.closeEntry))))
 
 (defn stored
   "add no deflated text to zip file "
