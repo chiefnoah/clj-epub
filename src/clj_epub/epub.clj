@@ -1,7 +1,7 @@
 (ns clj-epub.epub
   "making epub content & metadata"
   (:require [clojure.contrib.seq :refer [find-first indexed]]
-            [hiccup2.core :refer (html)]
+            [hiccup2.core :refer (html raw)]
             [hiccup.page :refer (xml-declaration)]
             [clj-epub.markup]))
 
@@ -75,9 +75,9 @@
             [:meta {:content "1" :name "dtb:depth"}]
             [:meta {:content "0" :name "dtb:maxPageNumber"}]
             [:style {:type "text/css" :title "override_css"}
-             "@page {padding: 0pt; margin: 0pt;}
+             (raw "@page {padding: 0pt; margin: 0pt;}
                body { text-align: center; padding: 0pt; margin: 0pt;}
-               img { height: 100%; }"]]
+               img { height: 100%; }")]]
            [:navMap
             (for [sec section_titles]
               [:navPoint {:id (:ncx sec) :playOrder (str (inc (find-at sec section_titles)))}

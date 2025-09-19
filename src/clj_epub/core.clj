@@ -1,7 +1,6 @@
 (ns clj-epub.core
   "input and output EPUB files"
-  (:use [clj-epub epub zipf markup]
-        [hiccup.util :refer [as-str raw-string]])
+  (:use [clj-epub epub zipf markup])
   (:import [java.io ByteArrayOutputStream]
            [java.util UUID]))
 
@@ -13,7 +12,7 @@
 
 
 (defn- stringify-text [m]
-  (assoc m :text (as-str (:text m))))
+  (assoc m :text (str (:text m))))
 
 (defn- write-epub
   "write EPUB on zip file"
