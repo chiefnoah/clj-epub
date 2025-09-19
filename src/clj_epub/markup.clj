@@ -1,6 +1,6 @@
 (ns clj-epub.markup
   "make EPUB text from some markuped text"
-  (:use [hiccup2.core :only (html)]
+  (:use [hiccup2.core :only (html raw)]
         [hiccup.util :only (escape-html)]
         [hiccup.page :only (doctype xml-declaration)])
   (:import [com.petebevin.markdown MarkdownProcessor]))
@@ -107,7 +107,7 @@
 ; HTMLに変換してから章ごとに切り分け
 (defmethod cut-by-chapter :markdown
   [{title :title text :text}]
-  (let [html (markdown->html text)]
+  (let [html (raw (markdown->html text))]
     (for [section (re-seq #"(?si)<h(\d)>(.*?)</h\1>(.*?)(?=(?:<h\d>|\s*$))" html)]
       (let [[all level value body] section]
         (Chapter. value, all, :markdown)))))
