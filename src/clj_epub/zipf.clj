@@ -24,7 +24,7 @@
   [#^ZipOutputStream zos {name :name data :data}]
   (.setMethod zos ZipOutputStream/STORED)
   (let [crc   (CRC32.)
-        ze    (ZipEntry. name)
+        ze    (ZipEntry. (str "OEBPS/" name))
         count (alength data)]
     (.update crc data)
     (doto ze
