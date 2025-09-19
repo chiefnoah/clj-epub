@@ -1,8 +1,8 @@
 (ns clj-epub.epub
   "making epub content & metadata"
   (:use [clojure.contrib.seq :only (find-first indexed)]
-        [hiccup.core :only (html)]
-        [hiccup.page-helpers :only (doctype xml-declaration)]
+        [hiccup2.core :only (html)]
+        [hiccup.page :only (xml-declaration)]
         [clj-epub.markup]))
 
 

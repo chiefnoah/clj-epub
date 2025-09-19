@@ -1,7 +1,8 @@
 (ns clj-epub.markup
   "make EPUB text from some markuped text"
-  (:use [hiccup.core :only (html escape-html)]
-        [hiccup.page-helpers :only (doctype xml-declaration)])
+  (:use [hiccup2.core :only (html)]
+        [hiccup.util :only (escape-html)]
+        [hiccup.page :only (doctype xml-declaration)])
   (:import [com.petebevin.markdown MarkdownProcessor]))
 
 
@@ -61,7 +62,7 @@
         chapters (map-flatten cut-by-chapter files)
         markups  (map-flatten markup-text    chapters)]
     (map-indexed (fn [index chapter] (epub-text (str "chapter-" index) chapter))
-                   markups)))
+                 markups)))
 
 
 
