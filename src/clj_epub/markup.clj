@@ -5,8 +5,6 @@
         [hiccup.page :only (doctype xml-declaration)])
   (:import [com.petebevin.markdown MarkdownProcessor]))
 
-
-
 (defrecord Chapter [title text markup])
 
 ;; 章立ての切り分け
@@ -22,14 +20,12 @@
   [{title :title text :text markup :markup}]
   (Chapter. title, text, markup))
 
-
 (defn normalize-text
   "テキストからePub表示に不都合なHTMLタグ、改行を取り除く"
   [text]
   (.. text
       (replaceAll "<br>" "<br/>")
       (replaceAll "<img([^>]*)>" "<img$1/>")))
-
 
 (defn text->xhtml
   "title,textをつなげたXHTMLを返す"
@@ -41,8 +37,7 @@
     [:head
      [:title title]
      [:meta {:http-equiv "Content-Type" :content "application/xhtml+xml; charset=utf-8"}]]
-    [:body (normalize-text text)]]))
-
+    [:body (raw (normalize-text text))]]))
 
 (defn epub-text
   "EPUBのページ構成要素を作成し、返す"
@@ -52,7 +47,6 @@
    :src  (str id ".html")
    :name (str "OEBPS/" id ".html")
    :text (text->xhtml chapter)})
-
 
 (defn files->epub-texts
   "ファイルの内容をEPUB用HTMLに変換して返す"
@@ -64,14 +58,12 @@
     (map-indexed (fn [index chapter] (epub-text (str "chapter-" index) chapter))
                  markups)))
 
-
-
 ;; EPUB簡易記法
 
 ; 簡易記法タグ
 (def meta-tag
-     {:chapter "[\\^\n]!!" ; !!
-      :title   "!title!"})
+  {:chapter "[\\^\n]!!" ; !!
+   :title   "!title!"})
 
 ; 簡単なマークアップで目次を切り分ける
 (defmethod cut-by-chapter :easy-markup
@@ -86,15 +78,11 @@
                   (. text replaceAll "([^(<[^>]+>)\n]*)\n*" "<p>$1</p>"))]
     (Chapter. title, html, nil)))
 
-
-
 ;; プレインテキスト用
 
 (defmethod markup-text :plain
   [{title :title text :text}]
   (Chapter. title, (str "<pre>" (escape-html text) "</pre>"), nil))
-
-
 
 ;; Markdown記法
 
@@ -107,7 +95,7 @@
 ; HTMLに変換してから章ごとに切り分け
 (defmethod cut-by-chapter :markdown
   [{title :title text :text}]
-  (let [html (raw (markdown->html text))]
+  (let [html (markdown->html text)]
     (for [section (re-seq #"(?si)<h(\d)>(.*?)</h\1>(.*?)(?=(?:<h\d>|\s*$))" html)]
       (let [[all level value body] section]
         (Chapter. value, all, :markdown)))))

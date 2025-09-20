@@ -5,6 +5,8 @@
            [java.util UUID]))
 
 
+
+
 (defn generate-uuid
   "generate uuid for OPF element dc:identifier(BookID)"
   []
@@ -64,4 +66,3 @@
               zos (open-zipstream baos)]
     (write-epub zos epub)
     (.toByteArray baos)))
-

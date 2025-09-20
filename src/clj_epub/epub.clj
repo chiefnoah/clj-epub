@@ -67,7 +67,7 @@
   (ftext "OEBPS/toc.ncx"
          (html
           (xml-declaration "UTF-8")
-          "<!DOCTYPE ncx PUBLIC \"-//NISO//DTD ncx 2005-1//EN\" \"http://www.daisy.org/z3986/2005/ncx-2005-1.dtd\">"
+          (raw "<!DOCTYPE ncx PUBLIC \"-//NISO//DTD ncx 2005-1//EN\" \"http://www.daisy.org/z3986/2005/ncx-2005-1.dtd\">")
           [:ncx {:version "2005-1" :xmlns "http://www.daisy.org/z3986/2005/ncx/"}
            [:head
             [:meta {:content book-id :name "dtb:uid"}]
